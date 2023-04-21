@@ -5,8 +5,45 @@
 - docker exec -it dbp-pg psql -U postgres
 
 ## Создание таблиц
+
+1. Создание таблицы Regions
 '''
-- Создание таблицы Employees
+CREATE TABLE Regions (
+id SERIAL PRIMARY KEY,
+Name VARCHAR(50) NOT NULL
+);
+'''
+
+-----------------------------------------------------------------------
+
+2. Создание таблицы Locations
+'''
+CREATE TABLE Locations (
+id SERIAL PRIMARY KEY,
+Name VARCHAR(50) NOT NULL,
+Address VARCHAR(100) NOT NULL,
+Region_id INTEGER,
+FOREIGN KEY (Region_id) REFERENCES Regions(id)
+);
+'''
+
+-----------------------------------------------------------------------
+
+3. Создание таблицы Departments
+'''
+CREATE TABLE Departments (
+id SERIAL PRIMARY KEY,
+Name VARCHAR(50) NOT NULL,
+Location_id INTEGER,
+Manager_id INTEGER,
+FOREIGN KEY (Location_id) REFERENCES Locations(id)
+);
+'''
+
+-----------------------------------------------------------------------
+
+4. Создание таблицы Employees
+'''
 CREATE TABLE Employees (
 id SERIAL PRIMARY KEY,
 Name VARCHAR(50) NOT NULL,
@@ -23,40 +60,14 @@ FOREIGN KEY (Department_id) REFERENCES Departments(id)
 
 -----------------------------------------------------------------------
 
+5. Добавление внешнего ключа в таблицу Departments
 '''
-- Создание таблицы Departments
-CREATE TABLE Departments (
-id SERIAL PRIMARY KEY,
-Name VARCHAR(50) NOT NULL,
-Location_id INTEGER,
-Manager_id INTEGER,
-FOREIGN KEY (Location_id) REFERENCES Locations(id),
-FOREIGN KEY (Manager_id) REFERENCES Employees(id)
-);
+ALTER TABLE Departments ADD FOREIGN KEY (Manager_id) REFERENCES Employees(id);
 '''
 
 -----------------------------------------------------------------------
 
-'''
-- Создание таблицы Locations
-CREATE TABLE Locations (
-id SERIAL PRIMARY KEY,
-Name VARCHAR(50) NOT NULL,
-Address VARCHAR(100) NOT NULL,
-Region_id INTEGER,
-FOREIGN KEY (Region_id) REFERENCES Regions(id)
-);
-'''
 
------------------------------------------------------------------------
-
-'''
-- Создание таблицы Regions
-CREATE TABLE Regions (
-id SERIAL PRIMARY KEY,
-Name VARCHAR(50) NOT NULL
-);
-'''
 
 ## Выборки:
 ### Показать работников у которых нет почты или почта не в корпоративном домене (домен dualbootpartners.com)
