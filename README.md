@@ -73,7 +73,8 @@ ALTER TABLE Departments ADD FOREIGN KEY (Manager_id) REFERENCES Employees(id);
 ### Показать работников у которых нет почты или почта не в корпоративном домене (домен dualbootpartners.com)
 '''
 SELECT * FROM Employees
-WHERE Email NOT LIKE '%@dualbootpartners.com';
+WHERE Email NOT LIKE '%@dualbootpartners.com'
+OR Email IS NULL;
 '''
 ### Получить список работников нанятых в последние 30 дней
 '''
